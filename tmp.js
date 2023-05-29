@@ -13,18 +13,21 @@
 
     // 建立按鈕元素
     const button = document.createElement('button');
-    button.textContent = 'Send Request';
+    button.textContent = 'Summary';
     button.style.position = 'fixed';
     button.style.top = '250px';
     button.style.right = '50px';
+    button.style.border = '2px solid black';
     document.body.appendChild(button);
 
-    // 點擊按鈕時執行請求
-    button.addEventListener('click', () => {
-        // 取得當前網址
-        const currentUrl = window.location.href;
-        const serverUrl = 'http://127.0.0.1:8000/gpt_summary/'
+    let responseDiv; // Declare the variable outside the event listener
 
+    button.addEventListener('click', () => {
+        const currentUrl = window.location.href;
+        const serverUrl = 'http://127.0.0.1:8000/gpt_summary/';
+        if (responseDiv) {
+            responseDiv.remove();
+        }
         // 發送網路請求
         fetch(serverUrl, {
             method: 'POST', // 或其他你需要的 HTTP 方法
@@ -37,7 +40,7 @@
             .then(data => {
                 const summary = data.summary;
                 // 顯示回應在畫面上
-                const responseDiv = document.createElement('div');
+                responseDiv = document.createElement('div');
                 responseDiv.textContent = summary;
                 responseDiv.style.position = 'fixed';
                 responseDiv.style.top = '350px';
@@ -48,6 +51,15 @@
                 responseDiv.style.width = '500px';
                 responseDiv.style.whiteSpace = 'pre-wrap';
                 document.body.appendChild(responseDiv);
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Close';
+                removeButton.style.top = '300px';
+                removeButton.style.right = '50px';
+                responseDiv.appendChild(removeButton);
+                removeButton.addEventListener('click', () => {
+                    responseDiv.remove();
+                    responseDiv = null;
+                });
             })
             .catch(error => {
                 console.error('Error:', error);
