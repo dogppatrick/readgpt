@@ -22,7 +22,7 @@
     button.addEventListener('click', () => {
         // 取得當前網址
         const currentUrl = window.location.href;
-        const serverUrl = 'http://127.0.0.1:8000/'
+        const serverUrl = 'http://127.0.0.1:8000/gpt_summary/'
 
         // 發送網路請求
         fetch(serverUrl, {

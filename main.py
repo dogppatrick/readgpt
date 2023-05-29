@@ -2,7 +2,7 @@ import requests
 from fastapi import APIRouter, FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from router import web_summary_api
+from router import gpt_summary
 
 app = FastAPI()
 
@@ -16,4 +16,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(web_summary_api)
+app.include_router(gpt_summary)
