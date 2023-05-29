@@ -1,7 +1,8 @@
 import requests
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from router import web_summary_api
 
 app = FastAPI()
 
@@ -15,15 +16,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/")
-async def process_url(request: dict):
-    payload = request.get("data", {})
-    processed_data = f"Processing URL: {payload.get('url')}"
-    print(f'{request}')
-    return {"result": processed_data}
-
-def web_context_extract(url):
-    pass
-
-def summary_result():
-    pass
+app.include_router(web_summary_api)
